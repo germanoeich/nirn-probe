@@ -44,6 +44,8 @@ func main() {
 		nodeName, _ = os.Hostname()
 	}
 
+	logrus.Info("Using node=" + nodeName)
+
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8100"
@@ -55,6 +57,7 @@ func main() {
 	}
 	lvl, err := logrus.ParseLevel(logLevel)
 	logrus.SetLevel(lvl)
+	logrus.Info("Log level set to " + logLevel)
 
 	// Disable go_exporter default metrics
 	r := prometheus.NewRegistry()

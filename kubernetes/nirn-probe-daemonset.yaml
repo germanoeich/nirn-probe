@@ -2,17 +2,18 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: nirn-probe
-  namespace: default
+  # Change this to your liking
+  namespace: rest-proxy
   labels:
     app: nirn-probe
 spec:
   selector:
     matchLabels:
-      name: nirn-probe
+      app: nirn-probe
   template:
     metadata:
       labels:
-        name: nirn-probe
+        app: nirn-probe
     spec:
 # Uncomment if you want the probe to run on master nodes
 #      tolerations:
@@ -20,7 +21,18 @@ spec:
 #          effect: NoSchedule
       containers:
         - name: nirn-probe
-          image: quay.io/fluentd_elasticsearch/fluentd:v2.5.2
+          image: ghcr.io/germanoeich/nirn-probe:main
+          ports:
+            - containerPort: 8100
+              name: metrics
+              protocol: TCP
+          env:
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+            - name: LOG_LEVEL
+              value: info
           resources:
             limits:
               cpu: 100m
@@ -28,3 +40,33 @@ spec:
             requests:
               cpu: 100m
               memory: 200Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nirn-probe-metrics
+  # Change this to your liking
+  namespace: rest-proxy
+  labels:
+    app: nirn-probe
+spec:
+  ports:
+    - name: metrics
+      port: 8100
+      targetPort: metrics
+      protocol: TCP
+  selector:
+    app: nirn-probe
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: nirn-probe-servicemonitor
+  # Change this to your liking
+  namespace: rest-proxy
+spec:
+  endpoints:
+    - port: metrics
+  selector:
+    matchLabels:
+      app: nirn-probe
