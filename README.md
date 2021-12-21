@@ -1,12 +1,17 @@
 # Nirn-probe
+
 Nirn-probe is a small probe that queries Discord periodically (every 1 minute) and checks if a machine/kubernetes node is banned by Cloudflare. It notifies you using Prometheus metrics.
 
 Having issues with Discord ratelimits? [Nirn-proxy](https://github.com/germanoeich/nirn-proxy) might be useful for you.
+
+**Quick links**: [binaries](https://github.com/germanoeich/nirn-probe/releases) - [docker img](https://github.com/germanoeich/nirn-probe/pkgs/container/nirn-probe) - [kubernetes yaml](https://github.com/germanoeich/nirn-probe/blob/main/kubernetes/nirn-probe-daemonset.yaml) - [grafana dash](https://github.com/germanoeich/nirn-probe/blob/main/grafana/dash.json)
+
 #### Features
 - Support for VMs or Kubernetes nodes
 - Extremely lightweight
 - No config
 - Extremely cheap on the Prometheus side
+- Tiny docker image
 
 ### Usage
 Binaries can be found [here](https://github.com/germanoeich/nirn-probe/releases). Docker images can be found [here](https://github.com/germanoeich/nirn-probe/pkgs/container/nirn-probe)
