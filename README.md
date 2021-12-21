@@ -1,6 +1,7 @@
 # Nirn-probe
 Nirn-probe is a small probe that queries Discord periodically (every 1 minute) and checks if a machine/kubernetes node is banned by Cloudflare. It notifies you using Prometheus metrics.
 
+Having issues with Discord ratelimits? [Nirn-proxy](https://github.com/germanoeich/nirn-proxy) might be useful for you.
 #### Features
 - Support for VMs or Kubernetes nodes
 - Extremely lightweight
