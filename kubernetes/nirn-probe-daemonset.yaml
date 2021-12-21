@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: nirn-probe
+  namespace: default
+  labels:
+    app: nirn-probe
+spec:
+  selector:
+    matchLabels:
+      name: nirn-probe
+  template:
+    metadata:
+      labels:
+        name: nirn-probe
+    spec:
+# Uncomment if you want the probe to run on master nodes
+#      tolerations:
+#        - key: node-role.kubernetes.io/master
+#          effect: NoSchedule
+      containers:
+        - name: nirn-probe
+          image: quay.io/fluentd_elasticsearch/fluentd:v2.5.2
+          resources:
+            limits:
+              cpu: 100m
+              memory: 200Mi
+            requests:
+              cpu: 100m
+              memory: 200Mi
